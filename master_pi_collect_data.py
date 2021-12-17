@@ -29,6 +29,7 @@ def logData():
     pressure = bme280.pressure
     humidity = bme280.relative_humidity
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
+    print(data)
     df = pd.DataFrame(data, columns=columns)
     df.to_csv(masterPiCSVFilename, mode='a', index=False, header=False)
 
