@@ -1,6 +1,6 @@
 import time
-# from adafruit_bme280 import basic as adafruit_bme280
-# import board
+from adafruit_bme280 import basic as adafruit_bme280
+import board
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import loggingDuration
