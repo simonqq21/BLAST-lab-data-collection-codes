@@ -39,6 +39,5 @@ while True:
     if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
         lastLogTime = datetime.now()
         logData()
-        datetime}_{uname}_{sitename
         camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
         (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
