@@ -23,12 +23,17 @@ columns = pd.read_csv(datadir + masterPiCSVFilename).columns.values
 print(columns)
 lastLogTime = datetime.now()
 
+def logData():
+    lastLogTime = datetime.now()
+    temperature = bme280.temperature
+    pressure = bme280.pressure
+    humidity = bme280.relative_humidity
+    data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
+    df = pd.DataFrame(data, columns=columns)
+    df.to_csv(masterPiCSVFilename, mode='a', index=False, header=False)
+
+logData()
+print('logging started')
 while True:
     if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
-        lastLogTime = datetime.now()
-        temperature = bme280.temperature
-        pressure = bme280.pressure
-        humidity = bme280.relative_humidity
-        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
-        df = pd.DataFrame(data, columns=columns)
-        df.to_csv(masterPiCSVFilename, mode='a', index=False, header=False)
+        logData()
