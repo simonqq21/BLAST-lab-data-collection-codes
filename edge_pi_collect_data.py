@@ -40,7 +40,7 @@ while True:
         lastLogTime = datetime.now()
         logData()
         hour = datetime.now().time().hour
-        if hour >= 6 && hour <= 18:
+        if hour >= 6 and hour <= 18:
             print('image captured')
             camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
         (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
