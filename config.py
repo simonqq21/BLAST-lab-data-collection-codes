@@ -43,7 +43,7 @@ df = pd.DataFrame.from_dict(data, orient='columns')
 mode = 'w'
 index=False
 header=True
-if os.path.exists(csvfilename):
+if os.path.exists(datadir + csvfilename):
     mode = 'a'
     header=False
 df.to_csv(datadir + csvfilename, mode=mode, index=index, header=header)
