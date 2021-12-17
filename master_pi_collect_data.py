@@ -2,11 +2,14 @@ import board
 import time
 from adafruit_bme280 import basic as adafruit_bme280
 from datetime import datetime, date, time, timedelta
-from config import loggingDuration, csvfilename
-
+from config import loggingDuration, datadir, masterPiCSVFilename
+import csv
 '''
 Python program to collect temperature, humidity, and pressure from the BME280 sensor
 connected to the master Pi every 10 minutes
+
+master pi data output
+csv file containing datetime, temperature, humidity, and pressure
 '''
 
 i2c = board.I2C()
