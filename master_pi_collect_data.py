@@ -31,6 +31,7 @@ def logData():
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)
+    print(df)
     df.to_csv(masterPiCSVFilename, mode='a', index=False, header=False)
 
 logData()
