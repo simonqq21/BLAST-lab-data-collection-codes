@@ -2,7 +2,8 @@ import board
 import time
 from adafruit_bme280 import basic as adafruit_bme280
 from datetime import datetime, date, time, timedelta
-from config import loggingDuration, datadir, masterPiCSVFilename
+from config import loggingDuration
+from config import datadir, masterPiCSVFilename
 import csv
 '''
 Python program to collect temperature, humidity, and pressure from the BME280 sensor

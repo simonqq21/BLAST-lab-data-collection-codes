@@ -3,7 +3,8 @@ import board
 import adafruit_bh1750
 from time import sleep
 from picamera import PiCamera
-from config import loggingDuration, datadir, edgePiCSVFilename, edgePiImagesDirectory, \
+from config import loggingDuration
+from config import datadir, edgePiCSVFilename, edgePiImagesDirectory, \
 edgePiImageFilenameFormat
 
 '''
