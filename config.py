@@ -24,6 +24,8 @@ edgePiImageFilenameFormat = "IMG_{datetime}_{uname}_{sitename}.jpg"
 # format the csv filenames
 masterPiCSVFilename = masterPiCSVFilename.format(uname=uname, sitename=sitename)
 edgePiCSVFilename = edgePiCSVFilename.format(uname=uname, sitename=sitename)
+print(masterPiCSVFilename)
+print(edgePiCSVFilename)
 
 create_path(datadir)
 create_path(edgePiImagesDirectory)
