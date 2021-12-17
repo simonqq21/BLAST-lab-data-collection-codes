@@ -12,7 +12,7 @@ role = os.environ['ROLE']
 sitename = os.environ['SITENAME']
 uname = os.uname()[1]
 
-loggingDuration = 600 # logging delay in sec, default 600secs for 10mins
+loggingDuration = 5 # logging delay in sec, default 600secs for 10mins
 
 # files and directories for collected data
 datadir = str(Path.home()) + '/blast_data/'

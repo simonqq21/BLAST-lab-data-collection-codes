@@ -1,10 +1,12 @@
-import board
 import time
-from adafruit_bme280 import basic as adafruit_bme280
+# from adafruit_bme280 import basic as adafruit_bme280
+# import board
 from datetime import datetime, date, time, timedelta
+from config import role, sitename, uname
 from config import loggingDuration
 from config import datadir, masterPiCSVFilename
-import csv
+import pandas as pd
+
 '''
 Python program to collect temperature, humidity, and pressure from the BME280 sensor
 connected to the master Pi every 10 minutes
@@ -15,13 +17,18 @@ csv file containing datetime, temperature, humidity, and pressure
 
 i2c = board.I2C()
 bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
-print()
-
 bme280.sea_level_pressure = 1013.25
 
+columns = pd.read_csv(datadir + masterPiCSVFilename).columns.values
+print(columns)
+lastLogTime = datetime.now()
+
 while True:
-    print("\nTemperature: %0.1f C" %bme280.temperature)
-    print("Humidity: %0.1f %%" %bme280.relative_humidity)
-    print("Pressure: %0.1f hPa" %bme280.pressure)
-    print("Altitude = %0.2f meters" %bme280.altitude)
-    time.sleep(2)
+    if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
+        lastLogTime = datetime.now()
+        temperature = bme280.temperature
+        pressure = bme280.pressure
+        humidity = bme280.relative_humidity
+        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
+        df = pd.DataFrame(data, columns=columns)
+        df.to_csv(masterPiCSVFilename, mode='a', index=False, header=False)
