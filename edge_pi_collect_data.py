@@ -8,6 +8,7 @@ from config import role, sitename, uname
 from config import loggingDuration
 from config import datadir, edgePiCSVFilename, edgePiImagesDirectory, edgePiImageFilenameFormat
 import pandas as pd
+
 '''
 Python program to take pictures from the picamera and collect light intensity from
 the bh1750 sensor connected to the edge Pis every 10 minutes
@@ -20,11 +21,24 @@ csv file containing datetime and light intensity
 i2c = board.I2C()
 sensor = adafruit_bh1750.BH1750(i2c)
 camera = PiCamera()
-camera.resolution = (1024, 768)
+camera.resolution = (3280, 2464)
 
-sleep(2)
-camera.capture('sample.jpg')
+columns = pd.read_csv(datadir + edgePiCSVFilename).columns.values
+print(columns)
+lastLogTime = datetime.now()
+
+def logData():
+    lightintensity = sensor.lux
+    data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), lightintensity]]
+    print(data)
+    df = pd.DataFrame(data, columns=columns)
+    print(df)
+    df.to_csv(datadir+edgePiCSVFilename, mode='a', index=False, header=False)
 
 while True:
-    print("%.2f Lux"%sensor.lux)
-    time.sleep(1)
+    if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
+        lastLogTime = datetime.now()
+        logData()
+        datetime}_{uname}_{sitename
+        camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
+        (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
