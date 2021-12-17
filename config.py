@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 import pandas as pd
 
 # create path if not exists
@@ -15,7 +14,7 @@ uname = os.uname()[1]
 loggingDuration = 600 # logging delay in sec, default 600secs for 10mins
 
 # files and directories for collected data
-datadir = str(Path.home()) + '/blast_data/'
+datadir = '/home/pi/blast_data/'
 masterPiCSVFilename = "temperature_humidity_pressure_data_{uname}_{sitename}.csv"
 edgePiCSVFilename = "lightintensity_data_{uname}_{sitename}.csv"
 edgePiImagesDirectory = datadir + "images/"
