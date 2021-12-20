@@ -8,6 +8,8 @@ from config import role, sitename, uname
 from config import sensorLoggingDelay, imageCaptureDelay
 from config import datadir, edgePiCSVFilename, edgePiImagesDirectory, edgePiImageFilenameFormat
 import pandas as pd
+import paho.mqtt.client as mqtt
+import json
 
 '''
 Python program to take pictures from the picamera and collect light intensity from
