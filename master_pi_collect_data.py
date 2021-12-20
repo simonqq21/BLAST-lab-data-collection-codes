@@ -3,7 +3,7 @@ from adafruit_bme280 import basic as adafruit_bme280
 import board
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
-from config import loggingDuration
+from config import sensorLoggingDelay
 from config import datadir, masterPiCSVFilename
 import pandas as pd
 
@@ -21,7 +21,7 @@ bme280.sea_level_pressure = 1013.25
 
 columns = pd.read_csv(datadir + masterPiCSVFilename).columns.values
 print(columns)
-lastLogTime = datetime.now()
+lastSensorLogTime = datetime.now()
 
 def logData():
     temperature = bme280.temperature
@@ -33,9 +33,12 @@ def logData():
     print(df)
     df.to_csv(datadir+masterPiCSVFilename, mode='a', index=False, header=False)
 
+# timedelta for sensor logging
+sensorLoggingTimeDelta = timedelta(seconds=sensorLoggingDelay)
+
 logData()
 print('logging started')
 while True:
-    if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
-        lastLogTime = datetime.now()
+    if datetime.now() - lastSensorLogTime >= sensorLoggingTimeDelta:
+        lastSensorLogTime = datetime.now()
         logData()

@@ -11,8 +11,8 @@ role = os.environ['ROLE']
 sitename = os.environ['SITENAME']
 uname = os.uname()[1]
 
-loggingDuration = 600 # sensor logging delay in sec, default 600secs for 10mins
-imageCaptureDuration = 600 # sensor logging delay in sec, default 600secs for 10mins
+sensorLoggingDelay = 600 # sensor logging delay in sec, default 600secs for 10mins
+imageCaptureDelay = 3600 # sensor logging delay in sec, default 600secs for 10mins
 
 # files and directories for collected data
 datadir = '/home/pi/blast_data/'

@@ -5,7 +5,7 @@ from time import sleep
 from picamera import PiCamera
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
-from config import loggingDuration
+from config import sensorLoggingDelay, imageCaptureDelay
 from config import datadir, edgePiCSVFilename, edgePiImagesDirectory, edgePiImageFilenameFormat
 import pandas as pd
 
@@ -29,7 +29,6 @@ except Exception as err:
 
 columns = pd.read_csv(datadir + edgePiCSVFilename).columns.values
 print(columns)
-lastLogTime = datetime.now()
 
 def logData():
     lightintensity = sensor.lux
@@ -39,13 +38,23 @@ def logData():
     print(df)
     df.to_csv(datadir+edgePiCSVFilename, mode='a', index=False, header=False)
 
+# timedeltas for sensor logging and image capture
+sensorLoggingTimeDelta = timedelta(seconds=sensorLoggingDelay)
+imageCaptureTimeDelta = timedelta(seconds=imageCaptureDelay)
+lastSensorLogTime = datetime.now()
+lastImageCaptureTime = datetime.now()
+
 logData()
+print('logging started')
 while True:
-    if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
-        lastLogTime = datetime.now()
+    if datetime.now() - lastSensorLogTime >= sensorLoggingTimeDelta:
+        lastSensorLogTime = datetime.now()
         logData()
+
+    if datetime.now() - lastImageCaptureTime >= sensorLoggingTimeDelta:
+        lastImageCaptureTime = datetime.now()
         hour = datetime.now().time().hour
         if hour >= 6 and hour <= 18:
             print('image captured')
             camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
-        (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
+            (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
