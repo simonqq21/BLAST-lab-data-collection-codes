@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import json
 import base64
+from io import BytesIO
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -32,12 +33,10 @@ image = "sample_image.jpg"
 print(type(image))
 
 with open(image, "rb") as f:
-    imagestring = f.read()
-    image_bytes = bytearray(imagestring)
-    print(image_bytes)
-    # image_bytes = base64.b64encode(f.read())
-    # image_str = image_bytes.decode('ascii')
-    # print(image_str)
+    # imagestring = f.read()
+    # image_bytes = bytearray(imagestring)
+    # print(image_bytes)
+    image_bytes = BytesIO(f.read())
 
-client.publish(publish_topic, image_bytes, 0)
+client.publish(publish_topic, image_bytes.read(), 0)
 client.loop_forever()
