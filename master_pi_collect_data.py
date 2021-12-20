@@ -1,6 +1,6 @@
 import time
-# from adafruit_bme280 import basic as adafruit_bme280
-# import board
+from adafruit_bme280 import basic as adafruit_bme280
+import board
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay
@@ -32,9 +32,9 @@ send json string of all sensor values
 '''
 
 # bme280 init
-# i2c = board.I2C()
-# bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
-# bme280.sea_level_pressure = 1013.25
+i2c = board.I2C()
+bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
+bme280.sea_level_pressure = 1013.25
 
 # get columns from file
 columns = pd.read_csv(datadir + masterPiCSVFilename).columns.values
@@ -47,17 +47,14 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
-    # if msg.topic == "t1/t2":
-    #     payload = json.loads(msg.payload)
-    #     print(payload)
 
 def on_publish(client, userdata, mid):
     print("Message published")
 
 # mqtt client init
 client = mqtt.Client(f"{sitename}_{uname}")
-sensorPublishTopic = f"/shift/DLSAU/master-pi/sensorvalues"
-# sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
+# sensorPublishTopic = f"/shift/DLSAU/master-pi/sensorvalues"
+sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
@@ -67,17 +64,17 @@ print(client)
 print(sensorPublishTopic)
 client.loop_start()
 
-temperature = 1
-pressure = 2
-humidity = 3
+temperature = 0
+pressure = 0
+humidity = 0
 def logData():
     global temperature, pressure, humidity
-    temperature += 1
-    pressure += 2
-    humidity += 3
-    # temperature = bme280.temperature
-    # pressure = bme280.pressure
-    # humidity = bme280.relative_humidity
+    # temperature += 1
+    # pressure += 2
+    # humidity += 3
+    temperature = bme280.temperature
+    pressure = bme280.pressure
+    humidity = bme280.relative_humidity
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)

@@ -1,8 +1,8 @@
 import time
-# import board
-# import adafruit_bh1750
+import board
+import adafruit_bh1750
 from time import sleep
-# from picamera import PiCamera
+from picamera import PiCamera
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay, imageCaptureDelay
@@ -36,14 +36,14 @@ mqtt publish with the data above
 send json string of all sensor values
 '''
 
-# i2c = board.I2C()
-# sensor = adafruit_bh1750.BH1750(i2c)
-# camera = PiCamera()
+i2c = board.I2C()
+sensor = adafruit_bh1750.BH1750(i2c)
+camera = PiCamera()
 # set picamera resolution to 5mp if 8mp is not supported
-# try:
-#     camera.resolution = (3280, 2464)
-# except Exception as err:
-#     camera.resolution = (2592, 1944)
+try:
+    camera.resolution = (3280, 2464)
+except Exception as err:
+    camera.resolution = (2592, 1944)
 
 columns = pd.read_csv(datadir + edgePiCSVFilename).columns.values
 print(columns)
@@ -55,19 +55,16 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
-    # if msg.topic == "t1/t2":
-    #     payload = json.loads(msg.payload)
-    #     print(payload)
 
 def on_publish(client, userdata, mid):
     print("Message published")
 
 # mqtt client init
 client = mqtt.Client(f"{sitename}_{uname}")
-sensorPublishTopic = f"/shift/DLSAU/edge-pi1/sensorvalues"
-# sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
-cameraPublishTopic = f"/shift/DLSAU/edge-pi1/images"
-# cameraPublishTopic = f"/shift/{sitename}/{uname}/images"
+# sensorPublishTopic = f"/shift/DLSAU/edge-pi1/sensorvalues"
+sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
+# cameraPublishTopic = f"/shift/DLSAU/edge-pi1/images"
+cameraPublishTopic = f"/shift/{sitename}/{uname}/images"
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
@@ -80,11 +77,11 @@ client.loop_start()
 # BytesIO for pi camera image
 imageStream = BytesIO()
 
-lightintensity = 100
+lightintensity = 0
 def logData():
     global lightintensity
-    # lightintensity = sensor.lux
-    lightintensity += 1
+    # lightintensity += 1
+    lightintensity = sensor.lux
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), lightintensity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)
@@ -100,15 +97,15 @@ def captureImage():
     global imageStream
     print('image captured')
 
-    # camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
-    # (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
+    camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
+    (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
     sleep(1)
-    # camera.capture(imageStream, 'jpeg')
+    camera.capture(imageStream, 'jpeg')
 
     # testing
-    image = "sample_image.jpg"
-    with open(image, "rb") as f:
-        imageStream = BytesIO(f.read())
+    # image = "sample_image.jpg"
+    # with open(image, "rb") as f:
+    #     imageStream = BytesIO(f.read())
 
     sendStreamViaMQTT(imageStream)
 
