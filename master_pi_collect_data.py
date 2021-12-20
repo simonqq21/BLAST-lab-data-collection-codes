@@ -59,8 +59,8 @@ publish_topic = f"/shift/{sitename}/{uname}/sensorvalues"
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
-client.connect("103.231.240.146", 11000)
-# client.connect("mqtt.eclipseprojects.io", 1883, 60)
+# client.connect("103.231.240.146", 11000)
+client.connect("mqtt.eclipseprojects.io", 1883, 60)
 print(client)
 print(publish_topic)
 client.loop_start()
@@ -81,8 +81,8 @@ def logData():
     df = pd.DataFrame(data, columns=columns)
     print(df)
     jsonData = df.to_json()
-    df.to_csv(datadir+masterPiCSVFilename, mode='a', index=False, header=False)
     client.publish(publish_topic, jsonData)
+    df.to_csv(datadir+masterPiCSVFilename, mode='a', index=False, header=False)
 
 # timedelta for sensor logging
 sensorLoggingTimeDelta = timedelta(seconds=sensorLoggingDelay)

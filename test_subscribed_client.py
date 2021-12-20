@@ -25,8 +25,8 @@ client.on_publish = on_publish
 client.connect("mqtt.eclipseprojects.io", 1883, 60)
 # client.connect("103.231.240.146", 11000)
 # "103.231.240.146", 11000
-publish_topic = f"/shift/DLSAU/master-pi/sensorvalues"
-
+# publish_topic = f"/shift/DLSAU/master-pi/sensorvalues"
+publish_topic = f"/shift/DLSAU/edge-pi1/sensorvalues"
 # client.loop_forever()
 client.subscribe(publish_topic)
 client.loop_forever()
