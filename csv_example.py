@@ -25,4 +25,5 @@ data2 = [["12/2/2022", "data3", "data4"]]
 print(df3.columns.values)
 df4 = pd.DataFrame(data2, columns=df3.columns.values)
 print(df4)
+print(df4.to_json())
 df3.to_csv('example.csv', mode='a', index=False, header=False)

@@ -11,11 +11,11 @@ role = os.environ['ROLE']
 sitename = os.environ['SITENAME']
 uname = os.uname()[1]
 
-sensorLoggingDelay = 600 # sensor logging delay in sec, default 600secs for 10mins
-imageCaptureDelay = 3600 # sensor logging delay in sec, default 600secs for 10mins
+sensorLoggingDelay = 600 # sensor logging delay in sec, default 600s for 10mins
+imageCaptureDelay = 3600 # image capture delay in sec, default 3600s for 1hr
 
 # files and directories for collected data
-datadir = '/home/pi/blast_data/'
+datadir = '/home/simonque/blast_data/'
 masterPiCSVFilename = "temperature_humidity_pressure_data_{uname}_{sitename}.csv"
 edgePiCSVFilename = "lightintensity_data_{uname}_{sitename}.csv"
 edgePiImagesDirectory = datadir + "images/"

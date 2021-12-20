@@ -15,7 +15,9 @@ the bh1750 sensor connected to the edge Pis every 10 minutes
 
 edge pi data output
 directory containing images with filenames containing the date and time they were taken
+REST API for sending images to server
 csv file containing datetime and light intensity
+mqtt publish with the data above
 '''
 
 i2c = board.I2C()
