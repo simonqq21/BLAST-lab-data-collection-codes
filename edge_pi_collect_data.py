@@ -21,7 +21,11 @@ csv file containing datetime and light intensity
 i2c = board.I2C()
 sensor = adafruit_bh1750.BH1750(i2c)
 camera = PiCamera()
-camera.resolution = (3280, 2464)
+# set picamera resolution to 5mp if 8mp is not supported
+try:
+    camera.resolution = (3280, 2464)
+except Exception as err:
+    camera.resolution = (2592, 1944)
 
 columns = pd.read_csv(datadir + edgePiCSVFilename).columns.values
 print(columns)
@@ -35,6 +39,7 @@ def logData():
     print(df)
     df.to_csv(datadir+edgePiCSVFilename, mode='a', index=False, header=False)
 
+logData()
 while True:
     if datetime.now() - lastLogTime >= timedelta(seconds=loggingDuration):
         lastLogTime = datetime.now()
