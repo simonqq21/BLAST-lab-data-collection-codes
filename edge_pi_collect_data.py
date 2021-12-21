@@ -123,7 +123,7 @@ while True:
         lastSensorLogTime = datetime.now()
         logData()
 
-    if datetime.now() - lastImageCaptureTime >= sensorLoggingTimeDelta:
+    if datetime.now() - lastImageCaptureTime >= imageCaptureTimeDelta:
         lastImageCaptureTime = datetime.now()
         hour = datetime.now().time().hour
         if hour >= 6 and hour <= 18:

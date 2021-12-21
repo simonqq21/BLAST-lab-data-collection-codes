@@ -1,7 +1,8 @@
 import paho.mqtt.client as mqtt
 import json
-import base64
+import binascii
 from io import BytesIO
+import os
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -19,8 +20,8 @@ def on_publish(client, userdata, mid):
 
 # mqtt client init
 client = mqtt.Client()
-publish_topic = "/imagetest1"
-# publish_topic = f"/shift/{sitename}/{uname}/sensorvalues"
+# publish_topic = "/imagetest1"
+publish_topic = "/shift/DLSAU/master-pi/testimages"
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
@@ -29,14 +30,15 @@ client.connect("mqtt.eclipseprojects.io", 1883, 60)
 print(client)
 print(publish_topic)
 
-image = "sample_image.jpg"
-print(type(image))
+for filename in os.listdir('images/'):
+    if filename.endswith(('.png', '.jpg', '.jpeg')):
+        print(filename)
+        with open('images/' + filename, "rb") as f:
+            # image_bytes = BytesIO(f.read())
+            image_data = binascii.b2a_base64(f.read()).decode()
 
-with open(image, "rb") as f:
-    # imagestring = f.read()
-    # image_bytes = bytearray(imagestring)
-    # print(image_bytes)
-    image_bytes = BytesIO(f.read())
-
-client.publish(publish_topic, image_bytes.read(), 0)
+        data = {'filename': filename, 'image_data': image_data}
+        jsondata = json.dumps(data)
+        # client.publish(publish_topic, image_bytes.read(), 0)
+        client.publish(publish_topic, jsondata, 0)
 client.loop_forever()

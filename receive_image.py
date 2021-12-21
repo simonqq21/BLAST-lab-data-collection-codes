@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import json
-import base64
+import binascii
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -8,10 +8,13 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("$SYS/#")
 
 def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.payload))
-    if msg.topic == "/imagetest1":
-        with open('recv_image.jpg', 'wb') as f:
-            f.write(msg.payload)
+    # print(msg.topic + " " + str(msg.payload))
+    if msg.topic == subscribe_topic:
+        payload = json.loads(msg.payload)
+        print(payload)
+        filename = payload['filename']
+        with open(filename, 'wb') as f:
+            f.write(binascii.a2b_base64(payload['image_data']))
             print("image successfully received")
         # image_str = payload["c2"].encode('ascii')
         # image_bytes = base64.b64encode(image_str)
@@ -24,7 +27,7 @@ def on_publish(client, userdata, mid):
 
 # mqtt client init
 client = mqtt.Client()
-subscribe_topic = "/imagetest1"
+subscribe_topic = "/shift/DLSAU/master-pi/testimages"
 # subscribe_topic = f"/shift/{sitename}/{uname}/sensorvalues"
 client.on_connect = on_connect
 client.on_message = on_message
