@@ -33,12 +33,12 @@ print(publish_topic)
 for filename in os.listdir('csv/'):
     if filename.endswith(('.csv',)):
         print(filename)
-        with open('images/' + filename, "rb") as f:
-            # image_bytes = BytesIO(f.read())
-            image_data = binascii.b2a_base64(f.read()).decode()
+        with open('csv/' + filename, "rb") as f:
+            # csv_bytes = BytesIO(f.read())
+            csv_data = binascii.b2a_base64(f.read()).decode()
 
-        data = {'filename': filename, 'image_data': image_data}
+        data = {'filename': filename, 'csv_data': csv_data}
         jsondata = json.dumps(data)
-        # client.publish(publish_topic, image_bytes.read(), 0)
+        # client.publish(publish_topic, csv_bytes.read(), 0)
         client.publish(publish_topic, jsondata, 0)
 client.loop_forever()
