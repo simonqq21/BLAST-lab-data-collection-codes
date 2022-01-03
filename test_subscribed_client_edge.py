@@ -26,8 +26,8 @@ client.connect("mqtt.eclipseprojects.io", 1883, 60)
 # client.connect("103.231.240.146", 11000)
 # "103.231.240.146", 11000
 # sensorPublishTopic = f"/shift/DLSAU/master-pi/sensorvalues"
-sensorPublishTopic = f"/shift/DLSAU/edge-pi1/sensorvalues"
-cameraPublishTopic = f"/shift/DLSAU/edge-pi1/images"
+sensorPublishTopic = f"/shift/DLSAU/edge-pi2/sensorvalues"
+cameraPublishTopic = f"/shift/DLSAU/edge-pi2/images"
 # client.loop_forever()
 client.subscribe(sensorPublishTopic)
 client.subscribe(cameraPublishTopic)
