@@ -75,7 +75,7 @@ def logData():
     temperature = bme280.temperature
     pressure = bme280.pressure
     humidity = bme280.relative_humidity
-    data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), temperature, pressure, humidity]]
+    data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, temperature, pressure, humidity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)
     print(df)

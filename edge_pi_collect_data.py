@@ -82,7 +82,7 @@ def logData():
     global lightintensity
     # lightintensity += 1
     lightintensity = sensor.lux
-    data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), lightintensity]]
+    data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, lightintensity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)
     print(df)
