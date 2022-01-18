@@ -34,8 +34,8 @@ subscribe_topic = "/shift/DLSAU/master-pi/csvs"
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
-# client.connect("103.231.240.146", 11000)
-client.connect("mqtt.eclipseprojects.io", 1883, 60)
+client.connect("103.231.240.146", 11000)
+# client.connect("mqtt.eclipseprojects.io", 1883, 60)
 print(subscribe_topic)
 
 
