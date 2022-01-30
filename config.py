@@ -24,7 +24,7 @@ imageFolderName = 'images/'
 masterPiCSVFilename = "temperature_humidity_pressure_data_{uname}_{sitename}.csv"
 edgePiCSVFilename = "lightintensity_data_{uname}_{sitename}.csv"
 csvDir = dataDir + csvFolderName
-edgePiImgDir = datadir + imageFolderName
+edgePiImgDir = dataDir + imageFolderName
 edgePiImageFilenameFormat = "IMG_{datetime}_{uname}_{sitename}.jpg"
 
 # format the csv filenames
@@ -33,7 +33,7 @@ edgePiCSVFilename = edgePiCSVFilename.format(uname=uname, sitename=sitename)
 print(masterPiCSVFilename)
 print(edgePiCSVFilename)
 
-create_path(datadir)
+create_path(dataDir)
 create_path(csvDir)
 create_path(edgePiImgDir)
 
@@ -51,7 +51,7 @@ df = pd.DataFrame.from_dict(data, orient='columns')
 mode = 'w'
 index=False
 header=True
-if os.path.exists(datadir + csvfilename):
+if os.path.exists(dataDir + csvfilename):
     mode = 'a'
     header=False
 df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
