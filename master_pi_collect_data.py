@@ -5,6 +5,7 @@ from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay
 from config import datadir, masterPiCSVFilename
+from config import sensorPublishTopic, mqttIP, mqttPort
 import pandas as pd
 import paho.mqtt.client as mqtt
 import json
@@ -53,12 +54,10 @@ def on_publish(client, userdata, mid):
 
 # mqtt client init
 client = mqtt.Client(f"{sitename}_{uname}")
-# sensorPublishTopic = f"/shift/DLSAU/master-pi/sensorvalues"
-sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
-client.connect("103.231.240.146", 11000)
+client.connect(mqttIP, mqttPort)
 # client.connect("mqtt.eclipseprojects.io", 1883, 60)
 print(client)
 print(sensorPublishTopic)

@@ -36,11 +36,12 @@ create_path(edgePiImagesDirectory)
 
 # create CSV file based on the role of the Pi
 if role == 'edge':
-    data = {'datetime': [], 'lightintensity': []}
+    data = {'datetime': [], 'sitename': [], 'uname': [], 'lightintensity': []}
     csvfilename = edgePiCSVFilename
 
 elif role == 'master':
-    data = {'datetime': [], 'temperature': [], 'pressure': [], 'humidity': []}
+    data = {'datetime': [], 'sitename': [], 'uname': [], 'temperature': [], \
+        'pressure': [], 'humidity': []}
     csvfilename = masterPiCSVFilename
 
 df = pd.DataFrame.from_dict(data, orient='columns')
@@ -51,3 +52,8 @@ if os.path.exists(datadir + csvfilename):
     mode = 'a'
     header=False
 df.to_csv(datadir + csvfilename, mode=mode, index=index, header=header)
+
+sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
+cameraPublishTopic = f"/shift/{sitename}/{uname}/images"
+mqttIP = "103.231.240.146"
+mqttPort = 11000
