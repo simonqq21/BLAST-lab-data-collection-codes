@@ -34,6 +34,7 @@ print(masterPiCSVFilename)
 print(edgePiCSVFilename)
 
 create_path(datadir)
+create_path(csvDir)
 create_path(edgePiImgDir)
 
 # create CSV file based on the role of the Pi
