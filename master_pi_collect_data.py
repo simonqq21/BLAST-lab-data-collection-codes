@@ -4,7 +4,7 @@ import board
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay
-from config import datadir, masterPiCSVFilename
+from config import csvDir, csvfilename
 from config import sensorPublishTopic, mqttIP, mqttPort
 import pandas as pd
 import paho.mqtt.client as mqtt
@@ -38,7 +38,7 @@ bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
 bme280.sea_level_pressure = 1013.25
 
 # get columns from file
-columns = pd.read_csv(datadir + masterPiCSVFilename).columns.values
+columns = pd.read_csv(csvDir + csvfilename).columns.values
 print(columns)
 
 def on_connect(client, userdata, flags, rc):
@@ -80,7 +80,7 @@ def logData():
     print(df)
     jsonData = df.to_json()
     client.publish(sensorPublishTopic, jsonData)
-    df.to_csv(datadir+masterPiCSVFilename, mode='a', index=False, header=False)
+    df.to_csv(csvDir + csvfilename, mode='a', index=False, header=False)
 
 # timedelta for sensor logging
 sensorLoggingTimeDelta = timedelta(seconds=sensorLoggingDelay)

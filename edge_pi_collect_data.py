@@ -6,7 +6,7 @@ from picamera import PiCamera
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay, imageCaptureDelay
-from config import datadir, edgePiCSVFilename, edgePiImagesDirectory, edgePiImageFilenameFormat
+from config import csvDir, csvfilename, edgePiImgDir, edgePiImageFilenameFormat
 from config import sensorPublishTopic, cameraPublishTopic, mqttIP, mqttPort
 import pandas as pd
 import paho.mqtt.client as mqtt
@@ -46,7 +46,7 @@ try:
 except Exception as err:
     camera.resolution = (2592, 1944)
 
-columns = pd.read_csv(datadir + edgePiCSVFilename).columns.values
+columns = pd.read_csv(csvDir + csvfilename).columns.values
 print(columns)
 
 def on_connect(client, userdata, flags, rc):
@@ -84,7 +84,7 @@ def logData():
     print(df)
     jsonData = df.to_json()
     client.publish(sensorPublishTopic, jsonData)
-    df.to_csv(datadir+edgePiCSVFilename, mode='a', index=False, header=False)
+    df.to_csv(csvDir + csvfilename, mode='a', index=False, header=False)
 
 def sendStreamViaMQTT(bIO):
     client.publish(cameraPublishTopic, bIO.read(), 0)
@@ -93,7 +93,7 @@ def captureImage():
     global imageStream
     print('image captured')
 
-    camera.capture(edgePiImagesDirectory + edgePiImageFilenameFormat.format \
+    camera.capture(edgePiImgDir + edgePiImageFilenameFormat.format \
     (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
     sleep(1)
     camera.capture(imageStream, 'jpeg')

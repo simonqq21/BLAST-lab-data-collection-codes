@@ -15,14 +15,16 @@ sensorLoggingDelay = 600 # sensor logging delay in sec, default 600s for 10mins
 imageCaptureDelay = 3600 # image capture delay in sec, default 3600s for 1hr
 
 # files and directories for collected data
-# homedir = '/home/simonque/'
-homedir = '/home/pi/'
-datasubdir = 'blast_data/'
-datadir = homedir + datasubdir
+# homeDir = '/home/simonque/'
+homeDir = '/home/pi/'
+dataFolderName = 'blast_data/'
+dataDir = homeDir + dataFolderName
+csvFolderName = 'csv/'
+imageFolderName = 'images/'
 masterPiCSVFilename = "temperature_humidity_pressure_data_{uname}_{sitename}.csv"
 edgePiCSVFilename = "lightintensity_data_{uname}_{sitename}.csv"
-edgePiImagesSubDir = datasubdir + "images/"
-edgePiImagesDirectory = homedir + edgePiImagesSubDir
+csvDir = dataDir + csvFolderName
+edgePiImgDir = datadir + imageFolderName
 edgePiImageFilenameFormat = "IMG_{datetime}_{uname}_{sitename}.jpg"
 
 # format the csv filenames
@@ -32,7 +34,7 @@ print(masterPiCSVFilename)
 print(edgePiCSVFilename)
 
 create_path(datadir)
-create_path(edgePiImagesDirectory)
+create_path(edgePiImgDir)
 
 # create CSV file based on the role of the Pi
 if role == 'edge':
@@ -51,7 +53,7 @@ header=True
 if os.path.exists(datadir + csvfilename):
     mode = 'a'
     header=False
-df.to_csv(datadir + csvfilename, mode=mode, index=index, header=header)
+df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
 
 sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
 cameraPublishTopic = f"/shift/{sitename}/{uname}/images"
