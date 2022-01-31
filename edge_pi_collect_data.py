@@ -94,8 +94,8 @@ def logData():
     client.publish(sensorPublishTopic, jsonData)
     df.to_csv(csvDir + csvfilename, mode='a', index=False, header=False)
 
-def sendStreamViaMQTT(bIO):
-    client.publish(cameraPublishTopic, bIO.read(), 0)
+# def sendStreamViaMQTT(bIO):
+#     client.publish(cameraPublishTopic, bIO.read(), 0)
 
 def captureImage():
     global imageStream
@@ -112,7 +112,7 @@ def captureImage():
     # image = "sample_image.jpg"
     # with open(image, "rb") as f:
     #     imageStream = BytesIO(f.read())
-    sendStreamViaMQTT(imageStream)
+    client.publish(cameraPublishTopic, jsondata, 0)
 
 # timedeltas for sensor logging and image capture
 sensorLoggingTimeDelta = timedelta(seconds=sensorLoggingDelay)

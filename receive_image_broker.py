@@ -12,15 +12,15 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("$SYS/#")
 
 def on_message(client, userdata, msg):
-    # print(msg.topic + " " + str(msg.payload))
+    print(msg.topic + " " + str(msg.payload))
+    print(msg.payload)
     if msg.topic == subscribe_topic:
-        print(msg.payload.read())
-        # payload = json.loads(msg.payload)
-        # print(payload)
-        # filename = payload['filename']
+        payload = json.loads(msg.payload)
+        print(payload)
+        filename = payload['filename']
         with open(dest + filename, 'wb') as f:
             f.write(binascii.a2b_base64(payload['image_data']))
-        #     print("image successfully received")
+            print("image successfully received")
 
 
 def on_publish(client, userdata, mid):
