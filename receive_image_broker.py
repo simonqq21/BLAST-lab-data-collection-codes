@@ -3,8 +3,11 @@ import json
 import binascii
 from config import mqttIP, mqttPort
 from io import BytesIO
+import os
+from config import create_path
 
-dest = '/home/pi/images'
+dest = '/home/pi/images/'
+create_path(dest)
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
