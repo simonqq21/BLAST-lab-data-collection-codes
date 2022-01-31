@@ -105,7 +105,7 @@ def captureImage():
     camera.capture(filename)
     sleep(1)
     camera.capture(imageStream, 'jpeg')
-    image_data = binascii.b2a_base64(f.read()).decode()
+    image_data = binascii.b2a_base64(imageStream).decode()
     data = {'filename': filename, 'image_data': image_data}
     jsondata = json.dumps(data)
     # testing
