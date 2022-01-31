@@ -4,7 +4,7 @@ import binascii
 from config import mqttIP, mqttPort
 from io import BytesIO
 
-dest = 'images/'
+dest = '/home/pi/images'
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))

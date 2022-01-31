@@ -100,9 +100,9 @@ def logData():
 def captureImage():
     global imageStream
     print('image captured')
-    filename = edgePiImgDir + edgePiImageFilenameFormat.format \
+    filename = edgePiImageFilenameFormat.format \
     (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename)
-    camera.capture(filename)
+    camera.capture(edgePiImgDir + filename)
     sleep(1)
     camera.capture(imageStream, 'jpeg')
     image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
