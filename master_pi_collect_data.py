@@ -20,13 +20,19 @@ mqtt publish with the data above
 
 /shift/<sitename>/<hostname>/sensorvalues
 
-/shift/dlsau/master-pi1/sensorvalues
-/shift/dlsau/edge-pi1/sensorvalues
-/shift/dlsau/edge-pi2/sensorvalues
-/shift/dlsau/edge-pi3/sensorvalues
-/shift/dlsau/edge-pi1/images
-/shift/dlsau/edge-pi2/images
-/shift/dlsau/edge-pi3/images
+/shift/dlsau/dlsau-dft0master-1/sensorvalues
+
+/shift/dlsau/dlsau-dft0edge-3/sensorvalues
+/shift/dlsau/dlsau-kratky0edge-1/sensorvalues
+/shift/dlsau/dlsau-dft0edge-1/sensorvalues
+/shift/dlsau/dlsau-dft0edge-2/sensorvalues
+/shift/dlsau/dlsau-kratky0edge-2/sensorvalues
+
+/shift/dlsau/dlsau-dft0edge-3/images
+/shift/dlsau/dlsau-kratky0edge-1/images
+/shift/dlsau/dlsau-dft0edge-1/images
+/shift/dlsau/dlsau-dft0edge-2/images
+/shift/dlsau/dlsau-kratky0edge-2/images
 ...
 
 send json string of all sensor values

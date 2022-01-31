@@ -12,6 +12,7 @@ import pandas as pd
 import paho.mqtt.client as mqtt
 import json
 from io import BytesIO
+import binascii
 
 '''
 Python program to take pictures from the picamera and collect light intensity from
@@ -25,15 +26,22 @@ mqtt publish with the data above
 
 /shift/<sitename>/<hostname>/sensorvalues
 
-/shift/dlsau/master-pi1/sensorvalues
-/shift/dlsau/edge-pi1/sensorvalues
-/shift/dlsau/edge-pi2/sensorvalues
-/shift/dlsau/edge-pi3/sensorvalues
-/shift/dlsau/edge-pi1/images
-/shift/dlsau/edge-pi2/images
-/shift/dlsau/edge-pi3/images
-...
+/shift/dlsau/dlsau-dft0master-1/sensorvalues
 
+/shift/dlsau/dlsau-dft0edge-3/sensorvalues
+/shift/dlsau/dlsau-kratky0edge-1/sensorvalues
+/shift/dlsau/dlsau-dft0edge-1/sensorvalues
+/shift/dlsau/dlsau-dft0edge-2/sensorvalues
+/shift/dlsau/dlsau-kratky0edge-2/sensorvalues
+
+/shift/dlsau/dlsau-dft0edge-3/images
+/shift/dlsau/dlsau-kratky0edge-1/images
+/shift/dlsau/dlsau-dft0edge-1/images
+/shift/dlsau/dlsau-dft0edge-2/images
+/shift/dlsau/dlsau-kratky0edge-2/images
+
+
+...
 send json string of all sensor values
 '''
 
@@ -92,17 +100,18 @@ def sendStreamViaMQTT(bIO):
 def captureImage():
     global imageStream
     print('image captured')
-
-    camera.capture(edgePiImgDir + edgePiImageFilenameFormat.format \
-    (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename))
+    filename = edgePiImgDir + edgePiImageFilenameFormat.format \
+    (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename)
+    camera.capture(filename)
     sleep(1)
     camera.capture(imageStream, 'jpeg')
-
+    image_data = binascii.b2a_base64(f.read()).decode()
+    data = {'filename': filename, 'image_data': image_data}
+    jsondata = json.dumps(data)
     # testing
     # image = "sample_image.jpg"
     # with open(image, "rb") as f:
     #     imageStream = BytesIO(f.read())
-
     sendStreamViaMQTT(imageStream)
 
 # timedeltas for sensor logging and image capture

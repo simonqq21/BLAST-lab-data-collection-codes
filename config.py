@@ -7,8 +7,12 @@ def create_path(path):
         os.makedirs(path)
 
 # get environment variables for role ie. master or edge, hostname, and sitename
-role = os.environ['ROLE']
-sitename = os.environ['SITENAME']
+try:
+    role = os.environ['ROLE']
+    sitename = os.environ['SITENAME']
+except:
+    role = ""
+    sitename = ""
 uname = os.uname()[1]
 
 sensorLoggingDelay = 600 # sensor logging delay in sec, default 600s for 10mins
