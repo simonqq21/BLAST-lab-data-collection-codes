@@ -8,11 +8,11 @@ from config import create_path
 
 dest = '/home/pi/images/'
 create_path(dest)
-hostnames = ["dlsau-dft0edge-1",
-    "dlsau-dft0edge-2",
-    "dlsau-dft0edge-3",
-    "dlsau-kratky0edge-1",
-    "dlsau-kratky0edge-2"]
+# hostnames = ["dlsau-dft0edge-1",
+#     "dlsau-dft0edge-2",
+#     "dlsau-dft0edge-3",
+#     "dlsau-kratky0edge-1",
+#     "dlsau-kratky0edge-2"]
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -20,7 +20,10 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("$SYS/#")
 
 def on_message(client, userdata, msg):
-    if msg.topic in subscribe_topics:
+    print(msg.topic)
+    print(str(msg.payload))
+    print()
+    if msg.topic == subscribe_topic:
         print(msg.topic)
         print(str(msg.payload))
         print()
@@ -38,12 +41,15 @@ def on_publish(client, userdata, mid):
 
 # mqtt client init
 client = mqtt.Client()
-subscribe_topics = []
-for hostname in hostnames:
-    subscribe_topics.append("/shift/dlsau-kratky/{hostname}/images".format(hostname=hostname))
-    create_path(dest + hostname)
-for topic in subscribe_topics:
-    client.subscribe(topic)
+subscribe_topic = "/shift/dlsau-kratky/dlsau-kratky0edge-1/images"
+client.subscribe(subscribe_topic)
+# subscribe_topics = []
+# for hostname in hostnames:
+#     print("/shift/dlsau-kratky/{hostname}/images".format(hostname=hostname))
+#     subscribe_topics.append("/shift/dlsau-kratky/{hostname}/images".format(hostname=hostname))
+#     create_path(dest + hostname)
+# for topic in subscribe_topics:
+#     client.subscribe(topic)
 
 # subscribe_topic = f"/shift/{sitename}/{uname}/sensorvalues"
 client.on_connect = on_connect

@@ -42,6 +42,7 @@ create_path(csvDir)
 create_path(edgePiImgDir)
 
 # create CSV file based on the role of the Pi
+data=None
 if role == 'edge':
     data = {'datetime': [], 'sitename': [], 'uname': [], 'lightintensity': []}
     csvfilename = edgePiCSVFilename
@@ -51,16 +52,19 @@ elif role == 'master':
         'pressure': [], 'humidity': []}
     csvfilename = masterPiCSVFilename
 
-df = pd.DataFrame.from_dict(data, orient='columns')
-mode = 'w'
-index=False
-header=True
-if os.path.exists(dataDir + csvfilename):
-    mode = 'a'
-    header=False
-df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
+if data is not None:
+    df = pd.DataFrame.from_dict(data, orient='columns')
+    mode = 'w'
+    index=False
+    header=True
+    if os.path.exists(dataDir + csvfilename):
+        mode = 'a'
+        header=False
+    df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
 
-sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
-cameraPublishTopic = f"/shift/{sitename}/{uname}/images"
+    sensorPublishTopic = f"/shift/{sitename}/{uname}/sensorvalues"
+    cameraPublishTopic = f"/shift/{sitename}/{uname}/images"
 mqttIP = "103.231.240.146"
 mqttPort = 11000
+# mqttIP = "mqtt.eclipseprojects.io"
+# mqttPort = 1883
