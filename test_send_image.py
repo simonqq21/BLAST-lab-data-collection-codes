@@ -9,10 +9,10 @@ import binascii
 sitename = 'dlsau'
 uname = 'testpi'
 cameraPublishTopic = '/mqtt/test1'
-# mqttIP = "mqtt.eclipseprojects.io"
-# mqttPort = 80
-mqttIP = "103.231.240.146"
-mqttPort = 11000
+mqttIP = "mqtt.eclipseprojects.io"
+mqttPort = 80
+# mqttIP = "103.231.240.146"
+# mqttPort = 11000
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
