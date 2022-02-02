@@ -49,6 +49,7 @@ def captureImage():
     image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
     data = {'filename': filename, 'image_data': image_data}
     jsondata = json.dumps(data)
+    print(jsondata)
     client.publish(cameraPublishTopic, jsondata)
 
 # timedeltas for sensor logging and image capture
