@@ -3,15 +3,18 @@ import json
 import binascii
 from io import BytesIO
 import os
-from config import create_path
 
 sitename = 'dlsau'
 uname = 'testpi'
-subscribe_topic = "/test1"
-# mqttIP = "mqtt.eclipseprojects.io"
-# mqttPort = 1883
-mqttIP = "103.231.240.146"
-mqttPort = 11000
+subscribe_topic = "/mqtt/test1"
+mqttIP = "mqtt.eclipseprojects.io"
+mqttPort = 80
+# mqttIP = "103.231.240.146"
+# mqttPort = 11000
+
+def create_path(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 dest = '/home/pi/images/'
 create_path(dest)
