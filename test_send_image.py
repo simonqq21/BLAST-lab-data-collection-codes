@@ -8,7 +8,7 @@ import binascii
 
 sitename = 'dlsau'
 uname = 'testpi'
-cameraPublishTopic = '/shift/dlsau/testpi/images'
+cameraPublishTopic = '/test1'
 # mqttIP = "mqtt.eclipseprojects.io"
 # mqttPort = 1883
 mqttIP = "103.231.240.146"
@@ -50,7 +50,8 @@ def captureImage():
     data = {'filename': filename, 'image_data': "y"}
     jsondata = json.dumps(data)
     print(jsondata)
-    client.publish(cameraPublishTopic, jsondata)
+    ret = client.publish(cameraPublishTopic, jsondata)
+    print(f'result={ret[0]}')
 
 # timedeltas for sensor logging and image capture
 imageCaptureTimeDelta = timedelta(seconds=10)

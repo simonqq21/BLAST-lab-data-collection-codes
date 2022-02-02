@@ -7,7 +7,7 @@ from config import create_path
 
 sitename = 'dlsau'
 uname = 'testpi'
-cameraPublishTopic = '/shift/dlsau/testpi/images'
+subscribe_topic = "/test1"
 # mqttIP = "mqtt.eclipseprojects.io"
 # mqttPort = 1883
 mqttIP = "103.231.240.146"
@@ -25,17 +25,17 @@ def on_message(client, userdata, msg):
     print(msg.topic)
     print(str(msg.payload))
     print()
-    if msg.topic == subscribe_topic:
-        print(msg.topic)
-        print(str(msg.payload))
-        print()
-        payload = json.loads(msg.payload)
-        print(payload)
-        filename = payload['filename']
-        hostname = payload['hostname']
-        with open(dest + hostname + '/' + filename, 'wb') as f:
-            f.write(binascii.a2b_base64(payload['image_data']))
-            print("image successfully received")
+    # if msg.topic == subscribe_topic:
+    #     print(msg.topic)
+    #     print(str(msg.payload))
+    #     print()
+    #     payload = json.loads(msg.payload)
+    #     print(payload)
+    #     filename = payload['filename']
+    #     hostname = payload['hostname']
+    #     with open(dest + hostname + '/' + filename, 'wb') as f:
+    #         f.write(binascii.a2b_base64(payload['image_data']))
+    #         print("image successfully received")
 
 
 def on_publish(client, userdata, mid):
@@ -43,7 +43,7 @@ def on_publish(client, userdata, mid):
 
 # mqtt client init
 client = mqtt.Client('testclient')
-subscribe_topic = "/shift/dlsau/testpi/images"
+
 client.subscribe(subscribe_topic)
 client.on_connect = on_connect
 client.on_message = on_message
