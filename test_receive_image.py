@@ -8,10 +8,10 @@ from config import create_path
 sitename = 'dlsau'
 uname = 'testpi'
 cameraPublishTopic = '/shift/dlsau/testpi/images'
-mqttIP = "mqtt.eclipseprojects.io"
-mqttPort = 1883
-# mqttIP = "103.231.240.146"
-# mqttPort = 11000
+# mqttIP = "mqtt.eclipseprojects.io"
+# mqttPort = 1883
+mqttIP = "103.231.240.146"
+mqttPort = 11000
 
 dest = '/home/pi/images/'
 create_path(dest)

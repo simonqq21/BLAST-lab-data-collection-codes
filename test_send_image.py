@@ -9,10 +9,10 @@ import binascii
 sitename = 'dlsau'
 uname = 'testpi'
 cameraPublishTopic = '/shift/dlsau/testpi/images'
-mqttIP = "mqtt.eclipseprojects.io"
-mqttPort = 1883
-# mqttIP = "103.231.240.146"
-# mqttPort = 11000
+# mqttIP = "mqtt.eclipseprojects.io"
+# mqttPort = 1883
+mqttIP = "103.231.240.146"
+mqttPort = 11000
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -47,7 +47,7 @@ def captureImage():
     filename = f'image_{filenameNumber}'
     filenameNumber += 1
     image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
-    data = {'filename': filename, 'image_data': image_data}
+    data = {'filename': filename, 'image_data': "y"}
     jsondata = json.dumps(data)
     print(jsondata)
     client.publish(cameraPublishTopic, jsondata)
