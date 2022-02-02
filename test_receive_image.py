@@ -16,7 +16,7 @@ def create_path(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
-dest = '/home/pi/images/'
+dest = 'images/'
 create_path(dest)
 
 def on_connect(client, userdata, flags, rc):
