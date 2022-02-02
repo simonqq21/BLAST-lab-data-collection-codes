@@ -6,7 +6,7 @@ import os
 
 sitename = 'dlsau'
 uname = 'testpi'
-subscribe_topic = "/mqtt/test1"
+subscribe_topic = "/mqtt/aaaaaaa"
 mqttIP = "mqtt.eclipseprojects.io"
 mqttPort = 80
 # mqttIP = "103.231.240.146"
