@@ -45,15 +45,21 @@ mqtt publish with the data above
 send json string of all sensor values
 '''
 
-i2c = board.I2C()
-sensor = adafruit_bh1750.BH1750(i2c)
-camera = PiCamera()
-# set picamera resolution to 5mp if 8mp is not supported
 try:
-    camera.resolution = (3280, 2464)
-except Exception as err:
-    camera.resolution = (2592, 1944)
-
+    i2c = board.I2C()
+    sensor = adafruit_bh1750.BH1750(i2c)
+except:
+    sensor = None
+try:
+    camera = PiCamera()
+    # set picamera resolution to 5mp if 8mp is not supported
+    try:
+        camera.resolution = (3280, 2464)
+    except Exception as err:
+        camera.resolution = (2592, 1944)
+except:
+    pass
+    
 columns = pd.read_csv(csvDir + csvfilename).columns.values
 print(columns)
 
@@ -86,7 +92,9 @@ imageStream = BytesIO()
 lightintensity = 0
 def logData():
     global lightintensity
-    lightintensity = sensor.lux
+    lightintensity = 999999999
+    if sensor is not None:
+        lightintensity = sensor.lux
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, lightintensity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)
