@@ -9,11 +9,21 @@ from config import create_path
 dest = '/home/pi/images/'
 # dest = 'images/'
 create_path(dest)
+locations = ["dlsau-dft",
+    "dlsau-dft",
+    "dlsau-dft",
+    "dlsau-kratky",
+    "dlsau-kratky"]
 hostnames = ["dlsau-dft0edge-1",
     "dlsau-dft0edge-2",
     "dlsau-dft0edge-3",
     "dlsau-kratky0edge-1",
     "dlsau-kratky0edge-2"]
+subscribe_topics = []
+for i in range(5):
+    create_path(dest + hostnames[i])
+    subscribe_topics.append("/shift/{location}/{hostname}/images".format(location=locations[i], hostname=hostnames[i]))
+
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
@@ -53,11 +63,6 @@ def on_publish(client, userdata, mid):
 # mqtt client init
 client = mqtt.Client()
 client.connect(mqttIP, mqttPort)
-
-subscribe_topics = []
-for hostname in hostnames:
-    create_path(dest + hostname)
-    subscribe_topics.append("/shift/dlsau-kratky/{hostname}/images".format(hostname=hostname))
 
 for topic in subscribe_topics:
     client.subscribe(topic)
