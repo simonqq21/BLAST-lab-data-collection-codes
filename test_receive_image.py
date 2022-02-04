@@ -24,17 +24,11 @@ def on_connect(client, userdata, flags, rc):
     # client.subscribe("$SYS/#")
 
 def on_message(client, userdata, msg):
-    print(msg.topic)
-    # print(str(msg.payload))
-    print()
     if msg.topic == subscribe_topic:
         print(msg.topic)
-        # print(str(msg.payload))
         payload = json.loads(msg.payload)
-        # print(payload)
         filename = payload['filename']
-        print(filename)
-    #     hostname = payload['hostname']
+        hostname = payload['hostname']
         with open(dest + '/' + filename, 'wb') as f:
             f.write(binascii.a2b_base64(payload['image_data']))
             print("image successfully received")

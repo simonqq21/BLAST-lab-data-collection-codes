@@ -7,8 +7,8 @@ from io import BytesIO
 import binascii
 
 sitename = 'dlsau'
-uname = 'testpi'
-cameraPublishTopic = '/mqtt/abcdxyz'
+uname = 'dlsau-dft0edge-1'
+cameraPublishTopic = '/shift/dlsau-kratky/dlsau-dft0edge-1/images'
 # mqttIP = "mqtt.eclipseprojects.io"
 # mqttPort = 1883
 mqttIP = "103.231.240.146"
@@ -46,7 +46,7 @@ def captureImage():
     filename = f'image_{filenameNumber}'
     filenameNumber += 1
     image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
-    data = {'filename': filename, 'image_data': image_data}
+    data = {'filename': filename, 'hostname': uname, 'image_data': image_data}
     jsondata = json.dumps(data)
     print(jsondata)
     ret = client.publish(cameraPublishTopic, jsondata)
