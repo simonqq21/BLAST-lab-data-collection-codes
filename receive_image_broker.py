@@ -24,7 +24,10 @@ def on_message(client, userdata, msg):
         payload = json.loads(msg.payload)
         filename = payload['filename']
         hostname = payload['hostname']
-        with open(dest + hostname + '/' + filename, 'wb') as f:
+        splitFilename = filename.split('_')
+        dateStr = splitFilename[1]
+        create_path(dest + hostname + '/' + dateStr)
+        with open(dest + hostname + '/' + dateStr + '/' + filename, 'wb') as f:
             f.write(binascii.a2b_base64(payload['image_data']))
             print("image successfully received")
 
