@@ -74,9 +74,6 @@ pressure = 0
 humidity = 0
 def logData():
     global temperature, pressure, humidity
-    # temperature += 1
-    # pressure += 2
-    # humidity += 3
     temperature = bme280.temperature
     pressure = bme280.pressure
     humidity = bme280.relative_humidity
@@ -85,7 +82,10 @@ def logData():
     df = pd.DataFrame(data, columns=columns)
     print(df)
     jsonData = df.to_json()
-    client.publish(sensorPublishTopic, jsonData)
+    try:
+        client.publish(sensorPublishTopic, jsonData)
+    except:
+        print("Publish failed, check broker")
     df.to_csv(csvDir + csvfilename, mode='a', index=False, header=False)
 
 # timedelta for sensor logging

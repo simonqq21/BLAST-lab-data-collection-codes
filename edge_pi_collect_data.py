@@ -94,11 +94,12 @@ def logData():
     if sensor is not None:
         lightintensity = sensor.lux
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, lightintensity]]
-    print(data)
     df = pd.DataFrame(data, columns=columns)
-    print(df)
     jsonData = df.to_json()
-    client.publish(sensorPublishTopic, jsonData)
+    try:
+        client.publish(sensorPublishTopic, jsonData)
+    except:
+        print("Publish failed, check broker")
     df.to_csv(csvDir + csvfilename, mode='a', index=False, header=False)
 
 # def sendStreamViaMQTT(bIO):
@@ -115,7 +116,10 @@ def captureImage():
     image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
     data = {'filename': filename, 'hostname': uname, 'image_data': image_data}
     jsondata = json.dumps(data)
-    client.publish(cameraPublishTopic, jsondata, 0)
+    try:
+        client.publish(cameraPublishTopic, jsondata, 0)
+    except:
+        print("Publish failed, check broker")
 
 # timedeltas for sensor logging and image capture
 sensorLoggingTimeDelta = timedelta(seconds=sensorLoggingDelay)
