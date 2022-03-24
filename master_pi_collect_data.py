@@ -1,6 +1,4 @@
 import time
-from adafruit_bme280 import basic as adafruit_bme280
-import board
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay
@@ -9,6 +7,7 @@ from config import sensorPublishTopic, mqttIP, mqttPort
 import pandas as pd
 import paho.mqtt.client as mqtt
 import json
+from sensors import BME280init
 
 '''
 Python program to collect temperature, humidity, and pressure from the BME280 sensor
@@ -39,9 +38,10 @@ send json string of all sensor values
 '''
 
 # bme280 init
-i2c = board.I2C()
-bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
-bme280.sea_level_pressure = 1013.25
+try:
+    bme280 = BME280init()
+except:
+    print("bme280 sensor error")
 
 # get columns from file
 columns = pd.read_csv(csvDir + csvfilename).columns.values
@@ -73,10 +73,7 @@ temperature = 0
 pressure = 0
 humidity = 0
 def logData():
-    global temperature, pressure, humidity
-    temperature = bme280.temperature
-    pressure = bme280.pressure
-    humidity = bme280.relative_humidity
+    temperature, pressure, humidity = BME280Read(bme280)
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, temperature, pressure, humidity]]
     print(data)
     df = pd.DataFrame(data, columns=columns)

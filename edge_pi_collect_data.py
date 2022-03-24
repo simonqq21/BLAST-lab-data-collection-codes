@@ -1,8 +1,5 @@
 import time
-import board
-import adafruit_bh1750
 from time import sleep
-from picamera import PiCamera
 from datetime import datetime, date, time, timedelta
 from config import role, sitename, uname
 from config import sensorLoggingDelay, imageCaptureDelay
@@ -13,6 +10,7 @@ import paho.mqtt.client as mqtt
 import json
 from io import BytesIO
 import binascii
+from sensors import BH1750init, piCameraInit
 
 '''
 Python program to take pictures from the picamera and collect light intensity from
@@ -46,17 +44,11 @@ send json string of all sensor values
 '''
 
 try:
-    i2c = board.I2C()
-    sensor = adafruit_bh1750.BH1750(i2c)
+    bh1750 = BH1750init()
 except:
-    sensor = None
+    print("bh1750 sensor error")
 try:
-    camera = PiCamera()
-    # set picamera resolution to 5mp if 8mp is not supported
-    try:
-        camera.resolution = (3280, 2464)
-    except Exception as err:
-        camera.resolution = (2592, 1944)
+    camera = piCameraInit()
 except:
     pass
 
@@ -89,10 +81,7 @@ imageStream = BytesIO()
 
 lightintensity = 0
 def logData():
-    global lightintensity
-    lightintensity = 999999999
-    if sensor is not None:
-        lightintensity = sensor.lux
+    lightintensity = BH1750Read(bh1750)
     data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, lightintensity]]
     df = pd.DataFrame(data, columns=columns)
     jsonData = df.to_json()
