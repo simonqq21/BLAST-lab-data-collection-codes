@@ -26,30 +26,8 @@ edgePiImgDir = dataDir + imageFolderName
 masterPiCSVFilename = masterPiCSVFilename.format(hostname=HOSTNAME, sitename=SITENAME)
 edgePiCSVFilename = edgePiCSVFilename.format(hostname=HOSTNAME, sitename=SITENAME)
 
-# create CSV file based on the role of the Pi
-data=None
-if ROLE == 'edge':
-    data = {'datetime': [], 'sitename': [], 'hostname': [], 'lightintensity': []}
-    csvfilename = edgePiCSVFilename
-
-elif ROLE == 'master':
-    data = {'datetime': [], 'sitename': [], 'hostname': [], 'temperature': [], \
-        'pressure': [], 'humidity': []}
-    csvfilename = masterPiCSVFilename
-
-if data is not None:
-    df = pd.DataFrame.from_dict(data, orient='columns')
-    mode = 'w'
-    index=False
-    header=True
-    if os.path.exists(dataDir + csvfilename):
-        mode = 'a'
-        header=False
-    df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
-
-    sensorPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/sensorvalues"
-    cameraPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/images"
-
+sensorPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/sensorvalues"
+cameraPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/images"
 # mqttIP = "103.231.240.146"
 # mqttPort = 11000
 mqttIP = "mqtt.eclipseprojects.io"

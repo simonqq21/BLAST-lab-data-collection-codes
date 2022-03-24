@@ -1,3 +1,3 @@
-SITENAME=""
-HOSTNAME=""
-ROLE=""
+SITENAME="sample site"
+HOSTNAME="testing"
+ROLE="edge"
