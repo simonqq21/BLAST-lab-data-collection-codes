@@ -15,7 +15,7 @@ import json
 from io import BytesIO
 import binascii
 from sensors import BH1750init, piCameraInit, BME280init
-from sensors import BH1750Read, BME280Read
+from sensors import BH1750Read, BME280Read, piCameraCapture
 
 '''
 edge pi data output
@@ -76,7 +76,7 @@ def edgePiCollectData():
         print("Message published")
 
     # mqtt client init
-    client = mqtt.Client(f"{sitename}_{uname}")
+    client = mqtt.Client(f"{SITENAME}_{HOSTNAME}")
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_publish = on_publish
@@ -87,14 +87,11 @@ def edgePiCollectData():
     print(cameraPublishTopic)
     client.loop_start()
 
-    # BytesIO for pi camera image
-    imageStream = BytesIO()
-
-    lightintensity = 0
     def logData():
         lightintensity = BH1750Read(bh1750)
-        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, lightintensity]]
+        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), SITENAME, HOSTNAME, lightintensity]]
         df = pd.DataFrame(data, columns=columns)
+        print(df)
         jsonData = df.to_json()
         try:
             client.publish(sensorPublishTopic, jsonData)
@@ -109,12 +106,10 @@ def edgePiCollectData():
         global imageStream
         print('image captured')
         filename = edgePiImageFilenameFormat.format \
-        (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), uname=uname, sitename=sitename)
-        camera.capture(edgePiImgDir + filename)
-        sleep(1)
-        camera.capture(imageStream, 'jpeg')
+        (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), hostname=HOSTNAME, sitename=SITENAME)
+        imageStream = piCameraCapture(camera, edgePiImgDir + filename)
         image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
-        data = {'filename': filename, 'hostname': uname, 'image_data': image_data}
+        data = {'filename': filename, 'hostname': HOSTNAME, 'image_data': image_data}
         jsondata = json.dumps(data)
         try:
             client.publish(cameraPublishTopic, jsondata, 0)
@@ -163,7 +158,7 @@ def masterPiCollectData():
         print("Message published")
 
     # mqtt client init
-    client = mqtt.Client(f"{sitename}_{uname}")
+    client = mqtt.Client(f"{SITENAME}_{HOSTNAME}")
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_publish = on_publish
@@ -173,12 +168,9 @@ def masterPiCollectData():
     print(sensorPublishTopic)
     client.loop_start()
 
-    temperature = 0
-    pressure = 0
-    humidity = 0
     def logData():
         temperature, pressure, humidity = BME280Read(bme280)
-        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), sitename, uname, temperature, pressure, humidity]]
+        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), SITENAME, HOSTNAME, temperature, pressure, humidity]]
         print(data)
         df = pd.DataFrame(data, columns=columns)
         print(df)

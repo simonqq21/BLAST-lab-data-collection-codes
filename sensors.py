@@ -6,6 +6,7 @@ try:
 except:
     print("Not running on a Raspberry Pi, using dummy sensor values")
     pass
+from io import BytesIO
 
 def BME280init():
     try:
@@ -45,7 +46,16 @@ def BME280Read(bme280):
     return (temperature, pressure, humidity)
 
 def BH1750Read(bh1750):
-    lightintensity = 999999999
+    lightintensity = -1
     if bh1750 is not None:
         lightintensity = bh1750.lux
     return lightintensity
+
+def piCameraCapture(camera, filepath):
+    # BytesIO for pi camera image
+    imageStream = BytesIO()
+    if camera is not None:
+        camera.capture(imageStream, 'jpeg')
+        with open(filepath, "wb") as f:
+            f.write(imageStream.read())
+    return imageStream
