@@ -1,0 +1,3 @@
+SITENAME=""
+HOSTNAME=""
+ROLE=""
