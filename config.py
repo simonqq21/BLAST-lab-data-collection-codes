@@ -26,6 +26,11 @@ edgePiImgDir = dataDir + imageFolderName
 masterPiCSVFilename = masterPiCSVFilename.format(hostname=HOSTNAME, sitename=SITENAME)
 edgePiCSVFilename = edgePiCSVFilename.format(hostname=HOSTNAME, sitename=SITENAME)
 
+if ROLE == 'edge':
+    csvfilename = edgePiCSVFilename
+elif ROLE == 'master':
+    csvfilename = masterPiCSVFilename
+
 sensorPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/sensorvalues"
 cameraPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/images"
 # mqttIP = "103.231.240.146"

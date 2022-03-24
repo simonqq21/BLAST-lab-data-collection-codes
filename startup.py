@@ -1,7 +1,8 @@
 import os
 import pandas as pd
 from node_info import ROLE
-from common import edgePiCollectData, masterPiCollectData
+from common import create_path, edgePiCollectData, masterPiCollectData
+from config import dataDir, csvDir, edgePiImgDir
 from config import edgePiCSVFilename, masterPiCSVFilename
 
 # create CSV file based on the role of the Pi
@@ -15,6 +16,8 @@ elif ROLE == 'master':
         'pressure': [], 'humidity': []}
     csvfilename = masterPiCSVFilename
 
+# run either master node data collection function or edge node data collection function
+create_path(csvDir)
 if data is not None:
     df = pd.DataFrame.from_dict(data, orient='columns')
     mode = 'w'
@@ -25,10 +28,10 @@ if data is not None:
         header=False
     df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
 
-# run either master node data collection function or edge node data collection function
 if ROLE == "master":
     print("running master Pi program")
     masterPiCollectData()
 else:
     print("running edge Pi program")
+    create_path(edgePiImgDir)
     edgePiCollectData()

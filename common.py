@@ -51,9 +51,6 @@ def create_path(path):
         os.makedirs(path)
 
 def edgePiCollectData():
-    create_path(csvDir)
-    create_path(edgePiImgDir)
-
     try:
         bh1750 = BH1750init()
     except:

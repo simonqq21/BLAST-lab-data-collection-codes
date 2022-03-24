@@ -1,8 +1,22 @@
 try:
-    from adafruit_bme280 import basic as adafruit_bme280
-    import board
-    import adafruit_bh1750
-    from picamera import PiCamera
+    try:
+        from adafruit_bme280 import basic as adafruit_bme280
+    except:
+        print('BME280 Library not installed')
+    try:
+        import adafruit_bh1750
+    except:
+        print('BH1750 Library not installed')
+    try:
+        import board
+    except:
+        print('i2c Library not installed')
+    try:
+        from picamera import PiCamera
+    except:
+        print('piCamera Library not installed')
+
+
 except:
     print("Not running on a Raspberry Pi, using dummy sensor values")
     pass
