@@ -17,3 +17,4 @@ pytz==2022.1
 pyusb==1.2.1
 six==1.16.0
 picamera==1.13
+gpiozero==1.6.2

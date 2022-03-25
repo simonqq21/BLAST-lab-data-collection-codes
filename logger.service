@@ -1,0 +1,9 @@
+[Unit]
+Description=Run the python3 sensor datalogger
+After=network.target
+
+[Service]
+ExecStart=sudo bash /home/pi/BLAST_lab/./startup.sh
+
+[Install]
+WantedBy=network.target

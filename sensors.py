@@ -15,13 +15,22 @@ try:
         from picamera import PiCamera
     except:
         print('piCamera Library not installed')
-
+    try:
+        from gpiozero import LED
+    except:
+        print('gpiozero Library not installed')
 
 except:
     print("Not running on a Raspberry Pi, using dummy sensor values")
     pass
 from io import BytesIO
 
+try:
+    led0 = LED(18)
+    led0.blink(on_time=1, off_time=1, background=True)
+except:
+    print("error controlling GPIO")
+    
 def BME280init():
     try:
         i2c = board.I2C()
