@@ -123,15 +123,19 @@ def edgePiCollectData():
     captureImage()
     print('logging started')
     while True:
-        if datetime.now() - lastSensorLogTime >= sensorLoggingTimeDelta:
-            lastSensorLogTime = datetime.now()
-            logData()
+        try:
+            if datetime.now() - lastSensorLogTime >= sensorLoggingTimeDelta:
+                lastSensorLogTime = datetime.now()
+                logData()
 
-        if datetime.now() - lastImageCaptureTime >= imageCaptureTimeDelta:
-            lastImageCaptureTime = datetime.now()
-            hour = datetime.now().time().hour
-            if hour >= 6 and hour <= 18:
-                captureImage()
+            if datetime.now() - lastImageCaptureTime >= imageCaptureTimeDelta:
+                lastImageCaptureTime = datetime.now()
+                hour = datetime.now().time().hour
+                if hour >= 6 and hour <= 18:
+                    captureImage()
+        except Exception as e:
+            logFile = open("logger.log", "a")
+            logFile.write(str(e))
 
 def masterPiCollectData():
     try:
@@ -184,6 +188,10 @@ def masterPiCollectData():
     logData()
     print('logging started')
     while True:
-        if datetime.now() - lastSensorLogTime >= sensorLoggingTimeDelta:
-            lastSensorLogTime = datetime.now()
-            logData()
+        try:
+            if datetime.now() - lastSensorLogTime >= sensorLoggingTimeDelta:
+                lastSensorLogTime = datetime.now()
+                logData()
+        except Exception as e:
+            logFile = open("logger.log", "a")
+            logFile.write(str(e))
