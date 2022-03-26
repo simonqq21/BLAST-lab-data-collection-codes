@@ -137,6 +137,15 @@ def edgePiCollectData():
             logFile = open("logger.log", "a")
             logFile.write(str(e))
 
+
+
+
+
+
+
+
+
+
 def masterPiCollectData():
     try:
         bme280 = BME280init()

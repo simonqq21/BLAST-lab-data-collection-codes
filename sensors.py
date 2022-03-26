@@ -30,22 +30,23 @@ try:
     led0.blink(on_time=1, off_time=1, background=True)
 except:
     print("error controlling GPIO")
-    
+
 def BME280init():
     try:
         i2c = board.I2C()
         bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
         bme280.sea_level_pressure = 1013.25
     except:
-        return None
+        print("bme280 sensor error")
     return bme280
 
 def BH1750init():
     try:
         i2c = board.I2C()
         bh1750 = adafruit_bh1750.BH1750(i2c)
-    except:
-        return None
+    except Exception as e:
+        print(e)
+        print("bh1750 sensor error")
     return bh1750
 
 def piCameraInit():
@@ -70,6 +71,7 @@ def BME280Read(bme280):
 
 def BH1750Read(bh1750):
     lightintensity = -1
+    print(bh1750)
     if bh1750 is not None:
         lightintensity = bh1750.lux
     return lightintensity
