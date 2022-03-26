@@ -24,6 +24,7 @@ except:
     print("Not running on a Raspberry Pi, using dummy sensor values")
     pass
 from io import BytesIO
+from time import sleep
 
 try:
     led0 = LED(18)
@@ -52,7 +53,9 @@ def BH1750init():
 def piCameraInit():
     try:
         camera = PiCamera()
+        print(camera)
     except:
+        print("Failed to create camera object!")
         return None
     # set picamera resolution to 5mp if 8mp is not supported
     try:
@@ -80,7 +83,11 @@ def piCameraCapture(camera, filepath):
     # BytesIO for pi camera image
     imageStream = BytesIO()
     if camera is not None:
+        print(camera)
+        sleep(1)
         camera.capture(imageStream, 'jpeg')
         with open(filepath, "wb") as f:
-            f.write(imageStream.read())
+            f.write(imageStream.getbuffer())
+        f.close()
+        # camera.capture(filepath)
     return imageStream
