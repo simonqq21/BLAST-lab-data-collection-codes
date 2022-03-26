@@ -23,9 +23,10 @@ if data is not None:
     mode = 'w'
     index=False
     header=True
-    if os.path.exists(dataDir + csvfilename):
+    if os.path.exists(csvDir + csvfilename):
         mode = 'a'
         header=False
+        print('exists!')
     df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
 
 if ROLE == "master":
