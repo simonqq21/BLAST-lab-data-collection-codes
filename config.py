@@ -33,7 +33,7 @@ elif ROLE == 'master':
 
 sensorPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/sensorvalues"
 cameraPublishTopic = f"/shift/{SITENAME}/{HOSTNAME}/images"
-# mqttIP = "103.231.240.146"
-# mqttPort = 11000
-mqttIP = "mqtt.eclipseprojects.io"
-mqttPort = 1883
+mqttIP = "103.231.240.132"
+mqttPort = 20010
+# mqttIP = "mqtt.eclipseprojects.io"
+# mqttPort = 1883
