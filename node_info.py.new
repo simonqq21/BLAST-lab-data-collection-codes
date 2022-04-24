@@ -1,3 +1,7 @@
 SITENAME="sample site"
 HOSTNAME="testing"
 ROLE="edge"
+
+#SITENAME="dlsau-bulacan"
+#HOSTNAME="t2r3-pi"
+#ROLE="edge"
