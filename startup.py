@@ -8,11 +8,11 @@ from config import edgePiCSVFilename, masterPiCSVFilename
 # create CSV file based on the role of the Pi
 data=None
 if ROLE == 'edge':
-    data = {'role': [], 'datetime': [], 'sitename': [], 'hostname': [], 'lightintensity': []}
+    data = {'datetime': [], 'sitename': [], 'hostname': [], 'lightintensity': []}
     csvfilename = edgePiCSVFilename
 
 elif ROLE == 'master':
-    data = {'role': [], 'datetime': [], 'sitename': [], 'hostname': [], 'temperature': [], \
+    data = {'datetime': [], 'sitename': [], 'hostname': [], 'temperature': [], \
         'pressure': [], 'humidity': []}
     csvfilename = masterPiCSVFilename
 
@@ -24,9 +24,15 @@ if data is not None:
     index=False
     header=True
     if os.path.exists(csvDir + csvfilename):
+        # columns = pd.read_csv(csvDir + csvfilename).columns.values
+        # newcolumns = df.columns.values
+        # for value in columns == df.columns.values:
+        #     if value == False:
+        #         print('error')
         mode = 'a'
         header=False
         print('exists!')
+
     df.to_csv(csvDir + csvfilename, mode=mode, index=index, header=header)
 
 if ROLE == "master":

@@ -92,6 +92,7 @@ def edgePiCollectData():
         df = pd.DataFrame(data, columns=columns)
         print(df)
         jsonData = df.to_json()
+        print(sensorPublishTopic)
         try:
             client.publish(sensorPublishTopic, jsonData)
         except:
@@ -110,6 +111,7 @@ def edgePiCollectData():
         image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
         data = {'role': 'edge', 'filename': filename, 'hostname': HOSTNAME, 'image_data': image_data}
         jsondata = json.dumps(data)
+        print(cameraPublishTopic)
         try:
             client.publish(cameraPublishTopic, jsondata, 0)
         except:
@@ -181,6 +183,7 @@ def masterPiCollectData():
         df = pd.DataFrame(data, columns=columns)
         print(df)
         jsonData = df.to_json()
+        print(sensorPublishTopic)
         try:
             client.publish(sensorPublishTopic, jsonData)
         except:
