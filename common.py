@@ -88,7 +88,7 @@ def edgePiCollectData():
 
     def logData():
         lightintensity = BH1750Read(bh1750)
-        data = [['edge', datetime.now().strftime('%m/%d/%Y %H:%M'), SITENAME, HOSTNAME, lightintensity]]
+        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), SITENAME, HOSTNAME, lightintensity]]
         df = pd.DataFrame(data, columns=columns)
         print(df)
         jsonData = df.to_json()
@@ -109,7 +109,7 @@ def edgePiCollectData():
         (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), hostname=HOSTNAME, sitename=SITENAME)
         imageStream = piCameraCapture(camera, edgePiImgDir + filename)
         image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
-        data = {'role': 'edge', 'filename': filename, 'hostname': HOSTNAME, 'image_data': image_data}
+        data = {{'role': 'edge', }'filename': filename, 'hostname': HOSTNAME, 'image_data': image_data}
         jsondata = json.dumps(data)
         print(cameraPublishTopic)
         try:
@@ -178,7 +178,7 @@ def masterPiCollectData():
 
     def logData():
         temperature, pressure, humidity = BME280Read(bme280)
-        data = [['master', datetime.now().strftime('%m/%d/%Y %H:%M'), SITENAME, HOSTNAME, temperature, pressure, humidity]]
+        data = [[datetime.now().strftime('%m/%d/%Y %H:%M'), SITENAME, HOSTNAME, temperature, pressure, humidity]]
         print(data)
         df = pd.DataFrame(data, columns=columns)
         print(df)
