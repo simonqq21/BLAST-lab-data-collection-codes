@@ -8,11 +8,11 @@ from config import edgePiCSVFilename, masterPiCSVFilename
 # create CSV file based on the role of the Pi
 data=None
 if ROLE == 'edge':
-    data = {'datetime': [], 'sitename': [], 'hostname': [], 'lightintensity': []}
+    data = {'role': [], 'datetime': [], 'sitename': [], 'hostname': [], 'lightintensity': []}
     csvfilename = edgePiCSVFilename
 
 elif ROLE == 'master':
-    data = {'datetime': [], 'sitename': [], 'hostname': [], 'temperature': [], \
+    data = {'role': [], 'datetime': [], 'sitename': [], 'hostname': [], 'temperature': [], \
         'pressure': [], 'humidity': []}
     csvfilename = masterPiCSVFilename
 
