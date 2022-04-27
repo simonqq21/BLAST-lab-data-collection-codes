@@ -77,12 +77,14 @@ def edgePiCollectData():
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_publish = on_publish
-    client.connect(mqttIP, mqttPort)
-    # client.connect("mqtt.eclipseprojects.io", 1883, 60)
-    print(client)
-    print(sensorPublishTopic)
-    print(cameraPublishTopic)
-    client.loop_start()
+    try:
+        client.connect(mqttIP, mqttPort)
+        print(client)
+        print(sensorPublishTopic)
+        print(cameraPublishTopic)
+        client.loop_start()
+    except:
+        print("Failed to connect to broker!")
 
     def logData():
         lightintensity = BH1750Read(bh1750)
@@ -138,14 +140,6 @@ def edgePiCollectData():
             logFile.write(str(e))
 
 
-
-
-
-
-
-
-
-
 def masterPiCollectData():
     try:
         bme280 = BME280init()
@@ -171,11 +165,14 @@ def masterPiCollectData():
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_publish = on_publish
-    client.connect(mqttIP, mqttPort)
-    # client.connect("mqtt.eclipseprojects.io", 1883, 60)
-    print(client)
-    print(sensorPublishTopic)
-    client.loop_start()
+
+    try:
+        client.connect(mqttIP, mqttPort)
+        print(client)
+        print(sensorPublishTopic)
+        client.loop_start()
+    except:
+        print("Publish failed, check broker") 
 
     def logData():
         temperature, pressure, humidity = BME280Read(bme280)
