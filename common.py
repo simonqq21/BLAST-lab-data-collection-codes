@@ -109,7 +109,7 @@ def edgePiCollectData():
         (datetime=datetime.now().strftime('%Y%m%d_%H%M%S'), hostname=HOSTNAME, sitename=SITENAME)
         imageStream = piCameraCapture(camera, edgePiImgDir + filename)
         image_data = binascii.b2a_base64(imageStream.getvalue()).decode()
-        data = {{'role': 'edge', }'filename': filename, 'hostname': HOSTNAME, 'image_data': image_data}
+        data = {'filename': filename, 'hostname': HOSTNAME, 'image_data': image_data}
         jsondata = json.dumps(data)
         print(cameraPublishTopic)
         try:
