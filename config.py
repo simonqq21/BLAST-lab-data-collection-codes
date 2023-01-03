@@ -31,8 +31,8 @@ if ROLE == 'edge':
 elif ROLE == 'master':
     csvfilename = masterPiCSVFilename
 
-# sensorPublishTopic = f"/shift/{SITENAME}/{ROLE}/{HOSTNAME}/sensorvalues"
-# cameraPublishTopic = f"/shift/{SITENAME}/edge/{HOSTNAME}/images"
+sensorPublishTopic = f"/shift/{SITENAME}/{ROLE}/{HOSTNAME}/sensorvalues"
+cameraPublishTopic = f"/shift/{SITENAME}/edge/{HOSTNAME}/images"
 mqttIP = "ccscloud2.dlsu.edu.ph"
 mqttPort = 20010
 # mqttIP = "mqtt.eclipseprojects.io"
